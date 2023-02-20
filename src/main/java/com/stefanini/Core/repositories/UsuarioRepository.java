@@ -15,5 +15,6 @@ public interface UsuarioRepository {
     Usuario recuperPorId(Long id);
     void atualizar(Usuario usuarioAtualizado);
     void deletar(Long id);
+    boolean loginJaCadastrado(String email);
 
 }
