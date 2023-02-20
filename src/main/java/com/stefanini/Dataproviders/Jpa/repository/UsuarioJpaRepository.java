@@ -4,20 +4,25 @@ import com.stefanini.Core.entities.Usuario;
 import com.stefanini.Core.repositories.UsuarioRepository;
 import com.stefanini.Dataproviders.Jpa.entity.UsuarioEntity;
 import com.stefanini.Dataproviders.dao.GenericDAO;
+import com.stefanini.Dataproviders.mapper.UsuarioEntityToUsuario;
+import com.stefanini.Dataproviders.mapper.UsuarioToUsuarioEntity;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @ApplicationScoped
-public class UsuarioJpaRepository implements UsuarioRepository {
+public class UsuarioJpaRepository extends GenericDAO<UsuarioEntity, Long> implements UsuarioRepository {
 
-    @Inject
-    private  GenericDAO<UsuarioEntity, Long> userDAO;
 
-    public UsuarioJpaRepository(GenericDAO<UsuarioEntity, Long> userDAO) {
-        this.userDAO = userDAO;
+    private final UsuarioEntityToUsuario usuarioEntityToUsuario;
+    private final UsuarioToUsuarioEntity usuarioToUsuarioEntity;
+
+    public UsuarioJpaRepository( UsuarioEntityToUsuario usuarioEntityToUsuario, UsuarioToUsuarioEntity usuarioEntity) {
+
+        this.usuarioEntityToUsuario = usuarioEntityToUsuario;
+        this.usuarioToUsuarioEntity = usuarioEntity;
     }
 
     @Override
@@ -37,12 +42,17 @@ public class UsuarioJpaRepository implements UsuarioRepository {
 
     @Override
     public Long cadastrarUsuario(Usuario usuario) {
-        return null;
+        var usuarioEntity = this.usuarioToUsuarioEntity.execute(usuario);
+        this.save(usuarioEntity);
+        return usuarioEntity.getId();
     }
 
     @Override
     public List<Usuario> listarTodos() {
-        return null;
+        var usuariosEntity = this.listAll();
+        List<Usuario> usuarios = new ArrayList<>();
+        usuariosEntity.forEach(usuario-> usuarios.add(this.usuarioEntityToUsuario.execute((UsuarioEntity) usuario)));
+        return usuarios;
     }
 
     @Override
@@ -58,5 +68,10 @@ public class UsuarioJpaRepository implements UsuarioRepository {
     @Override
     public void deletar(Long id) {
 
+    }
+
+    @Override
+    public boolean loginJaCadastrado(String email) {
+        return false;
     }
 }
