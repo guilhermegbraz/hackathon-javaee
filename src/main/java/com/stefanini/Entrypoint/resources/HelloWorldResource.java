@@ -1,4 +1,4 @@
-package com.stefanini.resources;
+package com.stefanini.Entrypoint.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

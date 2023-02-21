@@ -1,4 +1,4 @@
-package com.stefanini.dao;
+package com.stefanini.Dataproviders.dao;
 
 import org.hibernate.exception.ConstraintViolationException;
 
