@@ -57,7 +57,9 @@ public class UsuarioJpaRepository extends GenericDAO<UsuarioEntity, Long> implem
 
     @Override
     public Usuario recuperPorId(Long id) {
-        return null;
+        var usuario = this.findById(id);
+        if (usuario == null) return null;
+        return this.usuarioEntityToUsuario.execute(usuario);
     }
 
     @Override
