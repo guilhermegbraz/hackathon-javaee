@@ -49,10 +49,9 @@ public class UsuarioJpaRepository extends GenericDAO<UsuarioEntity, Long> implem
 
     @Override
     public List<Usuario> listarTodos() {
-        var usuariosEntity = this.listAll();
-        List<Usuario> usuarios = new ArrayList<>();
-        usuariosEntity.forEach(usuario-> usuarios.add(this.usuarioEntityToUsuario.execute((UsuarioEntity) usuario)));
-        return usuarios;
+        List<UsuarioEntity> usuarioEntityList = this.listAll();
+
+        return this.usuarioEntityToUsuario.execute(usuarioEntityList);
     }
 
     @Override
@@ -69,7 +68,7 @@ public class UsuarioJpaRepository extends GenericDAO<UsuarioEntity, Long> implem
 
     @Override
     public void deletar(Long id) {
-
+        this.delete(id);
     }
 
     @Override

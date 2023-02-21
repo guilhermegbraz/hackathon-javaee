@@ -3,6 +3,7 @@ package com.stefanini.Entrypoint.rest.controller;
 import com.stefanini.Core.entities.Usuario;
 import com.stefanini.Core.exceptions.BusinessException;
 import com.stefanini.Core.usecase.usuario.cadastro.CadastroUsuario;
+import com.stefanini.Core.usecase.usuario.deletarUmUsuario.DeletarUmUsuario;
 import com.stefanini.Core.usecase.usuario.detalharUmUsuario.DetalharUmUsuario;
 import com.stefanini.Core.usecase.usuario.listarTodosUsuarios.ListarTodosUsuarios;
 import com.stefanini.Dataproviders.Jpa.entity.UsuarioEntity;
@@ -33,7 +34,8 @@ public class UsuarioResource {
     ListarTodosUsuarios listarTodosUsuarios;
     @Inject
     DetalharUmUsuario detalharUmUsuario;
-
+    @Inject
+    DeletarUmUsuario deletarUmUsuario;
     @Inject
     UsuarioJpaRepository usuarioJpaRepository;
 
@@ -69,6 +71,17 @@ public class UsuarioResource {
             return Response.status(Response.Status.FOUND).entity(usuario).build();
         } catch(BusinessException exception){
             return Response.status(Response.Status.NOT_FOUND).entity(exception.getMessage()).build();
+        }
+    }
+
+    @DELETE
+    @Path("/{idUsuario}")
+    public Response deletarUsuario(@PathParam("idUsuario") Long idUsuario) {
+        try{
+            this.deletarUmUsuario.execute(idUsuario);
+            return Response.status(Response.Status.NO_CONTENT).build();
+        } catch(BusinessException exception){
+            return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build();
         }
     }
 
