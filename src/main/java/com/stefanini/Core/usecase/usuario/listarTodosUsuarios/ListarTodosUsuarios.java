@@ -19,10 +19,8 @@ public class ListarTodosUsuarios {
 
     public List<ExibirUsuarioDto> execute() {
         var usuarios = this.usuarioRepository.listarTodos();
-        List<ExibirUsuarioDto> dtoUsuarios = new ArrayList<>();
-        usuarios.forEach(usuario -> dtoUsuarios.add(this.usuarioToExibirUsuarioDto.execute(usuario)));
 
-        return dtoUsuarios;
+        return this.usuarioToExibirUsuarioDto.execute(usuarios);
     }
 
 }
