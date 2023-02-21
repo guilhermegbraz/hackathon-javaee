@@ -6,6 +6,7 @@ import com.stefanini.Core.usecase.usuario.cadastro.CriptografarSenha;
 import com.stefanini.Core.usecase.usuario.cadastro.validacoes.*;
 import com.stefanini.Core.usecase.usuario.deletarUmUsuario.DeletarUmUsuario;
 import com.stefanini.Core.usecase.usuario.detalharUmUsuario.DetalharUmUsuario;
+import com.stefanini.Core.usecase.usuario.listarAniversariantes.ListarAniversarianteDoMes;
 import com.stefanini.Core.usecase.usuario.listarProvedores.ListarProvedores;
 import com.stefanini.Core.usecase.usuario.listarTodosUsuarios.ListarTodosUsuarios;
 import com.stefanini.Core.usecase.usuario.mappers.UsuarioToExibirUsuarioDto;
@@ -63,5 +64,11 @@ public class UsuarioUsecaseConfig {
     @ApplicationScoped
     public ListarProvedores listarProvedores(UsuarioJpaRepository usuarioJpaRepository) {
         return new ListarProvedores(usuarioJpaRepository);
+    }
+
+    @Produces
+    @ApplicationScoped
+    public ListarAniversarianteDoMes listarAniversarianteDoMes(UsuarioJpaRepository usuarioJpaRepository) {
+        return new ListarAniversarianteDoMes(usuarioJpaRepository, new UsuarioToExibirUsuarioDto());
     }
 }
