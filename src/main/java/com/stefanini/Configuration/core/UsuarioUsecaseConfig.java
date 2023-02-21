@@ -3,6 +3,8 @@ package com.stefanini.Configuration.core;
 import com.stefanini.Core.usecase.usuario.cadastro.CadastroUsuario;
 import com.stefanini.Core.usecase.usuario.cadastro.CriptografarSenha;
 import com.stefanini.Core.usecase.usuario.cadastro.validacoes.*;
+import com.stefanini.Core.usecase.usuario.listarTodosUsuarios.ListarTodosUsuarios;
+import com.stefanini.Core.usecase.usuario.mappers.UsuarioToExibirUsuarioDto;
 import com.stefanini.Dataproviders.Jpa.repository.UsuarioJpaRepository;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -25,5 +27,11 @@ public class UsuarioUsecaseConfig {
     public CadastroUsuario cadastroUsuario(List<ValidacoesCadastro> validacoesCadastros,
                                            UsuarioJpaRepository usuarioJpaRepository) {
         return new CadastroUsuario(usuarioJpaRepository, validacoesCadastros, new CriptografarSenha());
+    }
+
+    @Produces
+    @ApplicationScoped
+    public ListarTodosUsuarios listarTodosUsuarios(UsuarioJpaRepository usuarioJpaRepository) {
+        return new ListarTodosUsuarios(usuarioJpaRepository, new UsuarioToExibirUsuarioDto());
     }
 }
