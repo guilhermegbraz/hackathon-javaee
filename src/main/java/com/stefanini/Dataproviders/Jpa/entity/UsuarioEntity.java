@@ -51,4 +51,8 @@ public class UsuarioEntity {
         this.senha = senha;
         this.dataDeNascimento = dataDeNascimento;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

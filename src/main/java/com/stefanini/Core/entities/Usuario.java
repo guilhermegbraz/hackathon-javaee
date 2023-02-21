@@ -7,6 +7,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @ToString
 @EqualsAndHashCode(of = {"id", "login"})
 public class Usuario {
