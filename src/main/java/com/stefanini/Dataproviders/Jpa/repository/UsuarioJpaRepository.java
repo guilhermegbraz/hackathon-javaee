@@ -8,9 +8,10 @@ import com.stefanini.Dataproviders.mapper.UsuarioEntityToUsuario;
 import com.stefanini.Dataproviders.mapper.UsuarioToUsuarioEntity;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.ArrayList;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class UsuarioJpaRepository extends GenericDAO<UsuarioEntity, Long> implements UsuarioRepository {
@@ -32,7 +33,9 @@ public class UsuarioJpaRepository extends GenericDAO<UsuarioEntity, Long> implem
 
     @Override
     public Set<String> listarProvedoresEmailUsuarios() {
-        return null;
+        TypedQuery<String> qry =this.getEntityManager().createQuery(
+                "SELECT DISTINCT SUBSTRING(u.email, LOCATE('@', u.email) + 1) AS dominio FROM Usuario u\n", String.class);
+        return  qry.getResultStream().collect(Collectors.toSet());
     }
 
     @Override
