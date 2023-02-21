@@ -6,6 +6,7 @@ import com.stefanini.Core.usecase.usuario.atualizarUsuario.AtualizarUmUsuario;
 import com.stefanini.Core.usecase.usuario.cadastro.CadastroUsuario;
 import com.stefanini.Core.usecase.usuario.deletarUmUsuario.DeletarUmUsuario;
 import com.stefanini.Core.usecase.usuario.detalharUmUsuario.DetalharUmUsuario;
+import com.stefanini.Core.usecase.usuario.listarProvedores.ListarProvedores;
 import com.stefanini.Core.usecase.usuario.listarTodosUsuarios.ListarTodosUsuarios;
 import com.stefanini.Core.usecase.usuario.view.ExibirUsuarioDto;
 import com.stefanini.Dataproviders.Jpa.repository.UsuarioJpaRepository;
@@ -30,6 +31,8 @@ public class UsuarioResource {
     private CadastroUsuarioDtoToUsuario converterUsuarioDtoToUsuario;
     @Inject
     private AtualizarUsuarioDtoToUsuario atualizarUsuarioDtoToUsuario;
+    @Inject
+    UsuarioJpaRepository usuarioJpaRepository;
 
     @Inject
     CadastroUsuario cadastroUsuario;
@@ -40,9 +43,9 @@ public class UsuarioResource {
     @Inject
     DeletarUmUsuario deletarUmUsuario;
     @Inject
-    UsuarioJpaRepository usuarioJpaRepository;
-    @Inject
     AtualizarUmUsuario atualizarUmUsuario;
+    @Inject
+    ListarProvedores listarProvedores;
 
     @GET
     public Response hello() {
@@ -99,6 +102,13 @@ public class UsuarioResource {
         }catch (BusinessException exception) {
             return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build();
         }
+    }
+
+    @GET
+    @Path("/dominio")
+    public Response dominioEmail() {
+
+        return Response.ok().entity(this.listarProvedores.execute()).build();
     }
 
 }

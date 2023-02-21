@@ -6,6 +6,7 @@ import com.stefanini.Core.usecase.usuario.cadastro.CriptografarSenha;
 import com.stefanini.Core.usecase.usuario.cadastro.validacoes.*;
 import com.stefanini.Core.usecase.usuario.deletarUmUsuario.DeletarUmUsuario;
 import com.stefanini.Core.usecase.usuario.detalharUmUsuario.DetalharUmUsuario;
+import com.stefanini.Core.usecase.usuario.listarProvedores.ListarProvedores;
 import com.stefanini.Core.usecase.usuario.listarTodosUsuarios.ListarTodosUsuarios;
 import com.stefanini.Core.usecase.usuario.mappers.UsuarioToExibirUsuarioDto;
 import com.stefanini.Dataproviders.Jpa.repository.UsuarioJpaRepository;
@@ -56,5 +57,11 @@ public class UsuarioUsecaseConfig {
                                               UsuarioJpaRepository usuarioJpaRepository) {
         return new AtualizarUmUsuario(usuarioJpaRepository, validacoesCadastros,
                 new CriptografarSenha(), new UsuarioToExibirUsuarioDto());
+    }
+
+    @Produces
+    @ApplicationScoped
+    public ListarProvedores listarProvedores(UsuarioJpaRepository usuarioJpaRepository) {
+        return new ListarProvedores(usuarioJpaRepository);
     }
 }
