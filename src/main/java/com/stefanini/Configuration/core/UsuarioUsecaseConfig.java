@@ -1,5 +1,6 @@
 package com.stefanini.Configuration.core;
 
+import com.stefanini.Core.usecase.usuario.atualizarUsuario.AtualizarUmUsuario;
 import com.stefanini.Core.usecase.usuario.cadastro.CadastroUsuario;
 import com.stefanini.Core.usecase.usuario.cadastro.CriptografarSenha;
 import com.stefanini.Core.usecase.usuario.cadastro.validacoes.*;
@@ -47,5 +48,13 @@ public class UsuarioUsecaseConfig {
     @ApplicationScoped
     public DeletarUmUsuario deletarUmUsuario(UsuarioJpaRepository usuarioJpaRepository) {
         return new DeletarUmUsuario(usuarioJpaRepository);
+    }
+
+    @Produces
+    @ApplicationScoped
+    public AtualizarUmUsuario atualizarUmUsuario(List<ValidacoesCadastro> validacoesCadastros,
+                                              UsuarioJpaRepository usuarioJpaRepository) {
+        return new AtualizarUmUsuario(usuarioJpaRepository, validacoesCadastros,
+                new CriptografarSenha(), new UsuarioToExibirUsuarioDto());
     }
 }
