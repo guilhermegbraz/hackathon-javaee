@@ -3,6 +3,7 @@ package com.stefanini.Entrypoint.rest.controller;
 import com.stefanini.Core.entities.Usuario;
 import com.stefanini.Core.exceptions.BusinessException;
 import com.stefanini.Core.usecase.usuario.cadastro.CadastroUsuario;
+import com.stefanini.Core.usecase.usuario.detalharUmUsuario.DetalharUmUsuario;
 import com.stefanini.Core.usecase.usuario.listarTodosUsuarios.ListarTodosUsuarios;
 import com.stefanini.Dataproviders.Jpa.entity.UsuarioEntity;
 import com.stefanini.Dataproviders.Jpa.repository.UsuarioJpaRepository;
@@ -30,6 +31,8 @@ public class UsuarioResource {
     CadastroUsuario cadastroUsuario;
     @Inject
     ListarTodosUsuarios listarTodosUsuarios;
+    @Inject
+    DetalharUmUsuario detalharUmUsuario;
 
     @Inject
     UsuarioJpaRepository usuarioJpaRepository;
@@ -56,6 +59,17 @@ public class UsuarioResource {
     public Response ListarUsuarios() {
         var usuarios = this.listarTodosUsuarios.execute();
         return Response.status(Response.Status.OK).entity(usuarios).build();
+    }
+
+    @GET
+    @Path("/{idUsuario}")
+    public Response detalharUsuario(@PathParam("idUsuario") String idUsuario) {
+        try{
+            var usuario = this.detalharUmUsuario.execute(Long.valueOf(idUsuario));
+            return Response.status(Response.Status.FOUND).entity(usuario).build();
+        } catch(BusinessException exception){
+            return Response.status(Response.Status.NOT_FOUND).entity(exception.getMessage()).build();
+        }
     }
 
 
