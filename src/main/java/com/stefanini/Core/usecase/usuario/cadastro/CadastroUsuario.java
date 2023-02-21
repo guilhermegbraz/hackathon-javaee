@@ -20,13 +20,10 @@ public class CadastroUsuario {
     }
 
     public String execute(Usuario usuario) {
-        try {
-            this.validacoes.forEach(validacao -> validacao.validar(usuario));
-            usuario.setSenha(this.criptografarSenha.execute(usuario.getSenha()));
-            var id = this.usuarioRepository.cadastrarUsuario(usuario);
-            return String.valueOf(id);
-        } catch (BusinessException exception) {
-            throw exception;
-        }
+
+        this.validacoes.forEach(validacao -> validacao.validar(usuario));
+        usuario.setSenha(this.criptografarSenha.execute(usuario.getSenha()));
+        var id = this.usuarioRepository.cadastrarUsuario(usuario);
+        return String.valueOf(id);
     }
 }
