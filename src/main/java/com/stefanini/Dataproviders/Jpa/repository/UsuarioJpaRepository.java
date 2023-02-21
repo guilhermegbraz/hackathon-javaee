@@ -9,6 +9,7 @@ import com.stefanini.Dataproviders.mapper.UsuarioToUsuarioEntity;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.TypedQuery;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,14 +28,19 @@ public class UsuarioJpaRepository extends GenericDAO<UsuarioEntity, Long> implem
     }
 
     @Override
-    public List<Usuario> listarAniversariantesDoMes(String mes) {
-        return null;
+    public List<Usuario> listarAniversariantesDoMes(int mes) {
+        TypedQuery<UsuarioEntity> qry = this.createQuery(
+                "SELECT u FROM Usuario u WHERE MONTH(u.dataDeNascimento) = :mesAtual"
+        );
+        qry.setParameter("mesAtual", mes);
+
+        return this.usuarioEntityToUsuario.execute(qry.getResultList());
     }
 
     @Override
     public Set<String> listarProvedoresEmailUsuarios() {
         TypedQuery<String> qry =this.getEntityManager().createQuery(
-                "SELECT DISTINCT SUBSTRING(u.email, LOCATE('@', u.email) + 1) AS dominio FROM Usuario u\n", String.class);
+                "SELECT DISTINCT SUBSTRING(u.email, LOCATE('@', u.email) + 1) AS dominio FROM Usuario u", String.class);
         return  qry.getResultStream().collect(Collectors.toSet());
     }
 

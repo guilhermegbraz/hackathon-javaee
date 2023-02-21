@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface UsuarioRepository {
-    List<Usuario> listarAniversariantesDoMes(String mes);
+    List<Usuario> listarAniversariantesDoMes(int mes);
     Set<String>  listarProvedoresEmailUsuarios();
     List<Usuario> listarUsuariosComInicial(String primeiraLetra);
 

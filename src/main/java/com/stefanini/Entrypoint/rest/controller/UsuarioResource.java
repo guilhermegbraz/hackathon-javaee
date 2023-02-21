@@ -6,6 +6,7 @@ import com.stefanini.Core.usecase.usuario.atualizarUsuario.AtualizarUmUsuario;
 import com.stefanini.Core.usecase.usuario.cadastro.CadastroUsuario;
 import com.stefanini.Core.usecase.usuario.deletarUmUsuario.DeletarUmUsuario;
 import com.stefanini.Core.usecase.usuario.detalharUmUsuario.DetalharUmUsuario;
+import com.stefanini.Core.usecase.usuario.listarAniversariantes.ListarAniversarianteDoMes;
 import com.stefanini.Core.usecase.usuario.listarProvedores.ListarProvedores;
 import com.stefanini.Core.usecase.usuario.listarTodosUsuarios.ListarTodosUsuarios;
 import com.stefanini.Core.usecase.usuario.view.ExibirUsuarioDto;
@@ -21,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
+import java.util.Calendar;
 
 @Path("/usuario")
 @Produces(MediaType.APPLICATION_JSON)
@@ -46,6 +48,8 @@ public class UsuarioResource {
     AtualizarUmUsuario atualizarUmUsuario;
     @Inject
     ListarProvedores listarProvedores;
+    @Inject
+    ListarAniversarianteDoMes listarAniversarianteDoMes;
 
     @GET
     public Response hello() {
@@ -109,6 +113,26 @@ public class UsuarioResource {
     public Response dominioEmail() {
 
         return Response.ok().entity(this.listarProvedores.execute()).build();
+    }
+
+    @GET
+    @Path("/aniversariantes/{mes}")
+    public Response listarAniversariantes(@PathParam("mes") Integer mes) {
+
+        return Response.ok().entity
+                (this.listarAniversarianteDoMes.execute(
+                        mes == null ? Calendar.getInstance().get(Calendar.MONTH)+1: mes
+                )).build();
+    }
+
+    @GET
+    @Path("/aniversariantes/")
+    public Response listarAniversariantes() {
+
+        return Response.ok().entity
+                (this.listarAniversarianteDoMes.execute(
+                         Calendar.getInstance().get(Calendar.MONTH)+1
+                )).build();
     }
 
 }
