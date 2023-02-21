@@ -38,7 +38,6 @@ public class UsuarioEntity {
     private String email;
 
     @NotBlank(message = "O atributo senha não pode estar em branco")
-    @Length(min = 4, max = 10, message = "O atributo senha deve possuir entre 4 e 10 caracteres")
     @NotNull
     private String senha;
 
