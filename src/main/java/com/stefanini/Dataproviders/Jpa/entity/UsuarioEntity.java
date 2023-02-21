@@ -11,8 +11,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@Entity(name = "usuario")
-@Table(name = "usuario")
+@Entity(name = "Usuario")
+@Table(name = "Usuario")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
