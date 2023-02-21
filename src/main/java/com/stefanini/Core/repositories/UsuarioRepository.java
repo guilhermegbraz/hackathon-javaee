@@ -13,7 +13,7 @@ public interface UsuarioRepository {
     Long cadastrarUsuario(Usuario usuario);
     List<Usuario> listarTodos();
     Usuario recuperPorId(Long id);
-    void atualizar(Usuario usuarioAtualizado);
+    Usuario atualizar(Usuario usuarioAtualizado);
     void deletar(Long id);
     boolean loginJaCadastrado(String email);
 

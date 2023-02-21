@@ -62,8 +62,12 @@ public class UsuarioJpaRepository extends GenericDAO<UsuarioEntity, Long> implem
     }
 
     @Override
-    public void atualizar(Usuario usuarioAtualizado) {
-
+    public Usuario atualizar(Usuario usuarioAtualizado) {
+        return this.usuarioEntityToUsuario.execute(
+                this.update(
+                        this.usuarioToUsuarioEntity.execute(usuarioAtualizado)
+                )
+        );
     }
 
     @Override

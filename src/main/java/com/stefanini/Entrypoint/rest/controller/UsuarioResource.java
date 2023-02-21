@@ -2,16 +2,17 @@ package com.stefanini.Entrypoint.rest.controller;
 
 import com.stefanini.Core.entities.Usuario;
 import com.stefanini.Core.exceptions.BusinessException;
+import com.stefanini.Core.usecase.usuario.atualizarUsuario.AtualizarUmUsuario;
 import com.stefanini.Core.usecase.usuario.cadastro.CadastroUsuario;
 import com.stefanini.Core.usecase.usuario.deletarUmUsuario.DeletarUmUsuario;
 import com.stefanini.Core.usecase.usuario.detalharUmUsuario.DetalharUmUsuario;
 import com.stefanini.Core.usecase.usuario.listarTodosUsuarios.ListarTodosUsuarios;
-import com.stefanini.Dataproviders.Jpa.entity.UsuarioEntity;
+import com.stefanini.Core.usecase.usuario.view.ExibirUsuarioDto;
 import com.stefanini.Dataproviders.Jpa.repository.UsuarioJpaRepository;
-import com.stefanini.Dataproviders.dao.GenericDAO;
+import com.stefanini.Entrypoint.mappers.AtualizarUsuarioDtoToUsuario;
 import com.stefanini.Entrypoint.mappers.CadastroUsuarioDtoToUsuario;
+import com.stefanini.Entrypoint.rest.dto.AtualizarUsuarioDTO;
 import com.stefanini.Entrypoint.rest.dto.CadastroUsuarioDTO;
-import org.jboss.resteasy.annotations.Body;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -27,6 +28,8 @@ public class UsuarioResource {
 
     @Inject
     private CadastroUsuarioDtoToUsuario converterUsuarioDtoToUsuario;
+    @Inject
+    private AtualizarUsuarioDtoToUsuario atualizarUsuarioDtoToUsuario;
 
     @Inject
     CadastroUsuario cadastroUsuario;
@@ -38,6 +41,8 @@ public class UsuarioResource {
     DeletarUmUsuario deletarUmUsuario;
     @Inject
     UsuarioJpaRepository usuarioJpaRepository;
+    @Inject
+    AtualizarUmUsuario atualizarUmUsuario;
 
     @GET
     public Response hello() {
@@ -85,5 +90,15 @@ public class UsuarioResource {
         }
     }
 
+    @PUT
+    public Response atualizarUsuario( AtualizarUsuarioDTO dadosUsuarioAtualizadoDto) {
+        try{
+            Usuario dadosUsuarioAtualizado = this.atualizarUsuarioDtoToUsuario.execute(dadosUsuarioAtualizadoDto);
+            ExibirUsuarioDto usuarioAtualizado = this.atualizarUmUsuario.execute(dadosUsuarioAtualizado);
+            return Response.status(Response.Status.OK).entity(usuarioAtualizado).build();
+        }catch (BusinessException exception) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build();
+        }
+    }
 
 }
