@@ -33,8 +33,7 @@ public class UsuarioResource {
     private CadastroUsuarioDtoToUsuario converterUsuarioDtoToUsuario;
     @Inject
     private AtualizarUsuarioDtoToUsuario atualizarUsuarioDtoToUsuario;
-    @Inject
-    UsuarioJpaRepository usuarioJpaRepository;
+
 
     @Inject
     CadastroUsuario cadastroUsuario;
@@ -50,11 +49,6 @@ public class UsuarioResource {
     ListarProvedores listarProvedores;
     @Inject
     ListarAniversarianteDoMes listarAniversarianteDoMes;
-
-    @GET
-    public Response hello() {
-        return Response.status(200).entity(usuarioJpaRepository.listarTodos()).build();
-    }
 
     @POST
     public Response CriarUsuario( CadastroUsuarioDTO novoUsuario) {
@@ -72,6 +66,7 @@ public class UsuarioResource {
     @GET
     public Response ListarUsuarios() {
         var usuarios = this.listarTodosUsuarios.execute();
+
         return Response.status(Response.Status.OK).entity(usuarios).build();
     }
 
