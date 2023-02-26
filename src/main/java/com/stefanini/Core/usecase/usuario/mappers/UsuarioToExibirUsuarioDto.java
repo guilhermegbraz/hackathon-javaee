@@ -8,8 +8,8 @@ import java.util.List;
 
 public class UsuarioToExibirUsuarioDto {
     public ExibirUsuarioDto execute(Usuario usuario) {
-        return new ExibirUsuarioDto(usuario.getNome(), usuario.getLogin(),
-                usuario.getEmail(), usuario.getDataDeNascimento());
+        return new ExibirUsuarioDto(usuario.getId(), usuario.getNome(), usuario.getLogin(),
+                usuario.getEmail(), usuario.getDataDeNascimento().toString());
     }
 
     public List<ExibirUsuarioDto> execute(List<Usuario> usuarios) {
